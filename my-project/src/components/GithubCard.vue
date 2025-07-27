@@ -1,0 +1,33 @@
+<script setup>
+import { ref } from 'vue'
+const props = defineProps({
+  username: { type: String, required: true }
+})
+
+const user = ref()
+
+fetch(`https://api.github.com/users/${props.username}`).then(async (res) => {
+  const data = await res.json()
+  user.value = data
+})
+</script>
+
+
+
+
+<template>
+<div class="card lg:card-side bg-base-100 shadow-sm">
+  <figure>
+    <img
+      :src="user.avatar_url"
+      alt="Album" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">{{user.name}}</h2>
+    <p>Followers: {{ user.followers }}</p>
+    <div class="card-actions justify-end">
+      <a :href="user.html_url" class="btn btn-primary">View Profile</a>
+    </div>
+  </div>
+</div>
+</template>
